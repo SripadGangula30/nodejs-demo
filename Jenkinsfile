@@ -29,7 +29,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
-                // Example: sh 'pm2 restart app.js' or Docker deploy step
+                sh '''
+                    cd ~/nodejs-demo
+                    pm2 delete nodejs-demo || true
+                    pm2 start server.js --name nodejs-demo
+                    pm2 save
+                '''
             }
         }
     }
